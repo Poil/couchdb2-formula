@@ -1,0 +1,9 @@
+---
+couchdb2:
+  repo_url: http://apache.bintray.com/couchdb-rpm/el$releasever/$basearch/
+  proxy: none
+  config_files: []
+  mode: singledb
+  admin_password: test123
+  cors: false
+  users: []

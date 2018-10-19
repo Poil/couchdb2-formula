@@ -1,0 +1,6 @@
+{% import_yaml "couchdb2/defaults.yaml" as default_settings %}
+{% set couchdb2 = salt['pillar.get'](
+    'couchdb2',
+    default=default_settings.couchdb2,
+    merge=True)
+%}

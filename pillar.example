@@ -1,0 +1,11 @@
+---
+couchdb2:
+  repo_url: https://repos.example/pulp/repos/couchdb-rpm/el$releasever/$basearch/
+  proxy: _none_
+  users:
+    example:
+      password: test123
+      roles: []
+  admin_password: test123
+  cors: True
+
