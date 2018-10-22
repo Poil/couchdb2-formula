@@ -82,104 +82,6 @@ couchdb_initial_config_admin:
       - couchdb2_package
 {%- endif %}
 
-{%- if couchdb2.cors == True %}
-couchdb2_cors_check_enable:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/httpd/enable_cors
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - match: '"true"'
-
-couchdb2_cors_enable:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/httpd/enable_cors
-    - method: PUT
-    - data: '"true"'
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - onfail:
-      - couchdb2_cors_check_enable
-
-couchdb2_cors_check_origins:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/origins
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - match: '"*"'
-
-couchdb2_cors_origins:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/origins
-    - method: PUT
-    - data: '"*"'
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - onfail:
-      - couchdb2_cors_check_origins
-
-couchdb2_cors_check_credentials:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/credentials
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - match: '"true"'
-
-couchdb2_cors_credentials:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/credentials
-    - method: PUT
-    - data: '"true"'
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - onfail:
-      - couchdb2_cors_check_credentials
-
-couchdb2_cors_check_methods:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/methods
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - match: '"GET, PUT, POST, HEAD, DELETE"'
-
-couchdb2_cors_methods:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/methods
-    - method: PUT
-    - data: '"GET, PUT, POST, HEAD, DELETE"'
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - onfail:
-      - couchdb2_cors_check_methods
-
-couchdb2_cors_check_headers:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/headers
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - match: '"accept, authorization, content-type, origin, referer, x-csrf-token"'
-
-couchdb2_cors_headers:
-  http.query:
-    - name: http://localhost:5984/_node/couchdb@127.0.0.1/_config/cors/headers
-    - method: PUT
-    - data: '"accept, authorization, content-type, origin, referer, x-csrf-token"'
-    - username: admin
-    - password: {{ couchdb2.admin_password }}
-    - status: 200
-    - onfail:
-      - couchdb2_cors_check_headers
-{%- endif %}
-
-
 {%- if 'users' in couchdb2 and couchdb2.users %}
   {%- for key, value in couchdb2.users.items() %}
 couchdb2_user_check_{{ key }}:
@@ -205,3 +107,5 @@ couchdb2_user_{{ key }}:
   {%- endfor %}
 {%- endif %}
 
+include:
+  - couchdb2.cors
